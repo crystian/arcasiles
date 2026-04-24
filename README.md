@@ -1,6 +1,6 @@
 # Arcasiles — Claude Code Showcase
 
-Repo de acompañamiento de la charla **Arcasiles**. Es una muestra funcional de como
+Repo de acompañamiento de la charla **[Arcasiles](https://luma.com/arcasilesgroup)**. Es una muestra funcional de como
 organizar agents, skills, hooks y workflows de Claude Code alrededor de un proyecto
 real (un monorepo con API en NestJS + app en Angular sobre un dominio de clubes de
 lectura, usado como ejemplo).
