@@ -1,0 +1,151 @@
+<!-- TODO PROTO:book-clubs - Club Detail as editorial article. -->
+<div class="shell">
+
+  @if (club(); as c) {
+    <div class="crumbs">
+      <a routerLink="/explore" class="eyebrow underline-pop">← Indice</a>
+      <span class="eyebrow muted">·</span>
+      <span class="eyebrow">Articulo · Club nº {{ c.id.replace('c', '') }}</span>
+    </div>
+
+    <!-- Article head -->
+    <article class="article">
+      <header class="article-head">
+        <div class="article-meta">
+          <span class="eyebrow">
+            {{ c.modality === 'presencial' ? '· presencial' : '· online' }}
+          </span>
+          <span class="eyebrow dot" aria-hidden="true">·</span>
+          <span class="eyebrow">{{ c.vibe }}</span>
+          @if (c.city) {
+            <span class="eyebrow dot" aria-hidden="true">·</span>
+            <span class="eyebrow">{{ c.city }}</span>
+          }
+        </div>
+
+        <h1 class="article-title">{{ c.name }}</h1>
+
+        <p class="lead article-lead">{{ c.description }}</p>
+
+        <div class="article-actions">
+          @if (isMember()) {
+            <button type="button" class="btn btn-ghost" (click)="toggleMembership()">
+              <span>Dejar el club</span>
+              <span aria-hidden="true">×</span>
+            </button>
+            <span class="chip chip-lime">✓ sos miembro</span>
+          } @else {
+            <button type="button" class="btn btn-primary" (click)="toggleMembership()">
+              <span>Me sumo</span>
+              <span aria-hidden="true">→</span>
+            </button>
+            <span class="mono muted small">toma ~30 segundos</span>
+          }
+        </div>
+      </header>
+
+      <!-- Split: cover + body -->
+      <div class="article-body split">
+        <aside class="article-cover">
+          <div class="cover cover-coral" [class.cover-violet]="c.modality === 'online'">
+            <span class="book-stamp book-stamp-lime">Leyendo ahora</span>
+            <div>
+              <div class="cover-title">{{ c.currentBook.title }}</div>
+              <div class="cover-author">{{ c.currentBook.author }}</div>
+            </div>
+          </div>
+          <a [routerLink]="['/books', bookId()]" class="eyebrow eyebrow-ink underline-pop cover-link">
+            Ver ficha del libro →
+          </a>
+        </aside>
+
+        <div class="article-text column stack stack-lg">
+          <section class="block">
+            <span class="eyebrow">Sobre el libro</span>
+            <h2 class="block-title italic">{{ c.currentBook.title }}</h2>
+            <p class="muted block-sub">de {{ c.currentBook.author }}</p>
+          </section>
+
+          <blockquote class="pull-quote">
+            {{ c.vibe }}. Leemos, discutimos, tomamos algo. Sin fanatismos.
+          </blockquote>
+
+          <section class="block">
+            <span class="eyebrow">La proxima reunion</span>
+            <div class="meeting-card">
+              <div class="meeting-date">
+                <span class="meeting-day">{{ meetingDay() }}</span>
+                <span class="meeting-month mono">{{ meetingMonth() }}</span>
+              </div>
+              <div class="meeting-info">
+                <p class="meeting-when">{{ formattedDate() }}</p>
+                <p class="muted meeting-where">
+                  @if (c.modality === 'presencial') {
+                    ✸ {{ c.venue }}
+                  } @else {
+                    ✸ Videollamada (el link se comparte 1 hora antes)
+                  }
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="block">
+            <span class="eyebrow">Generos</span>
+            <div class="inline inline-sm inline-wrap">
+              @for (g of c.genres; track g) {
+                <span class="chip chip-ghost">{{ g }}</span>
+              }
+            </div>
+          </section>
+
+          <!-- TODO PROTO:book-clubs - Members preview is hardcoded placeholder. -->
+          <section class="block">
+            <span class="eyebrow">Quien va · {{ c.memberCount }} miembros</span>
+            <ul class="avatar-row">
+              @for (i of [0,1,2,3,4]; track i) {
+                <li class="avatar" [class]="'avatar-t' + i">
+                  {{ ['A','M','L','R','S'][i] }}
+                </li>
+              }
+              @if (c.memberCount > 5) {
+                <li class="avatar avatar-count">+{{ c.memberCount - 5 }}</li>
+              }
+            </ul>
+          </section>
+        </div>
+      </div>
+    </article>
+
+    <!-- Related -->
+    @if (related().length > 0) {
+      <hr class="section-divider" />
+      <section class="related section-tight">
+        <div class="related-head">
+          <span class="eyebrow">Tambien te puede interesar</span>
+          <span class="mono index-num">similares por genero</span>
+        </div>
+        <ul class="related-grid">
+          @for (r of related(); track r.id) {
+            <li class="related-item paper-lift" [routerLink]="['/clubs', r.id]">
+              <h4 class="related-name">{{ r.name }}</h4>
+              <p class="muted related-book">
+                leyendo <span class="italic">{{ r.currentBook.title }}</span>
+              </p>
+              <div class="inline inline-sm inline-wrap">
+                <span class="chip chip-sm chip-ghost">{{ r.modality }}</span>
+                <span class="chip chip-sm chip-ghost">{{ formatShort(r.nextMeeting) }}</span>
+              </div>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  } @else {
+    <div class="not-found">
+      <span class="empty-mark">?</span>
+      <h2>Ese club se escapo</h2>
+      <a routerLink="/explore" class="btn btn-primary">Volver al indice</a>
+    </div>
+  }
+</div>

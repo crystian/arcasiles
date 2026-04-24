@@ -1,0 +1,77 @@
+// TODO PROTO:book-clubs - Design tokens. Editorial Zine direction, light + dark.
+:root {
+  // Paper (canvas)
+  --paper: #f4f1e8;
+  --paper-deep: #ece7d4;
+  --surface: #ffffff;
+  --surface-sunk: #f8f5ec;
+
+  // Ink (text + lines)
+  --ink: #15110d;
+  --ink-soft: #2a2520;
+  --ink-muted: #6d655a;
+  --hair: #c9c0aa;
+
+  // Pop palette
+  --coral: #ff3b5c;
+  --coral-deep: #e4254a;
+  --lime: #d7ff3b;
+  --violet: #5b3dff;
+  --sand: #f0e9d7;
+  --highlight: #ffe94a;
+
+  // Depth
+  --shadow-pop: 0 2px 0 var(--ink), 6px 8px 0 var(--ink);
+  --shadow-pop-sm: 3px 3px 0 var(--ink);
+  --shadow-card: 0 1px 2px rgba(21, 17, 13, 0.06), 0 12px 32px rgba(21, 17, 13, 0.08);
+
+  // Shape
+  --r-sm: 0.25rem;
+  --r-md: 0.5rem;
+  --r-lg: 1rem;
+  --r-pill: 999px;
+  --border: 1.5px;
+  --border-hairline: 0.5px;
+
+  // Type
+  --f-display: "Instrument Serif", "Times New Roman", serif;
+  --f-sans: "Space Grotesk", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, monospace;
+  --f-hand: "Caveat", "Bradley Hand", cursive;
+
+  // Motion
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-page: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-paper: cubic-bezier(0.22, 1, 0.36, 1);
+
+  // Layout
+  --shell-max: 1200px;
+  --shell-pad: clamp(1rem, 4vw, 2.5rem);
+
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --paper: #141110;
+  --paper-deep: #0c0a09;
+  --surface: #1c1815;
+  --surface-sunk: #100d0b;
+
+  --ink: #f2ebd9;
+  --ink-soft: #d9d1bd;
+  --ink-muted: #9a9082;
+  --hair: #2e2822;
+
+  // Pops se quedan iguales — vibran mas en dark
+  --coral: #ff4d6c;
+  --lime: #d7ff3b;
+  --violet: #7e66ff;
+  --sand: #2a241d;
+  --highlight: #ffd54a;
+
+  --shadow-pop: 0 2px 0 var(--ink), 6px 8px 0 var(--ink);
+  --shadow-pop-sm: 3px 3px 0 var(--ink);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.35);
+
+  color-scheme: dark;
+}

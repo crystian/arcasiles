@@ -1,0 +1,73 @@
+// TODO PROTO:book-clubs - Paper grain + xerox noise.
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(rgba(21, 17, 13, 0.04) 1px, transparent 1px),
+    radial-gradient(rgba(21, 17, 13, 0.03) 1px, transparent 1px);
+  background-size: 3px 3px, 7px 7px;
+  background-position: 0 0, 1px 2px;
+  mix-blend-mode: multiply;
+  opacity: 0.6;
+}
+
+[data-theme="dark"] body::before {
+  background-image:
+    radial-gradient(rgba(242, 235, 217, 0.025) 1px, transparent 1px),
+    radial-gradient(rgba(242, 235, 217, 0.018) 1px, transparent 1px);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+}
+
+#app-root,
+app-root {
+  position: relative;
+  z-index: 1;
+}
+
+// Tape decorator (magazine vibe)
+.tape {
+  position: relative;
+  display: inline-block;
+}
+.tape::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 70px;
+  height: 18px;
+  background: var(--highlight);
+  border: var(--border-hairline) solid rgba(21, 17, 13, 0.2);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+// Paper edge on hover (subtle lift)
+.paper-lift {
+  transition: transform 0.25s var(--ease-pop), box-shadow 0.25s var(--ease-pop);
+}
+.paper-lift:hover {
+  transform: translate(-2px, -3px) rotate(-0.2deg);
+  box-shadow: 6px 8px 0 var(--ink);
+}
+
+// Subtle pop on elements
+.pop-hover {
+  transition: transform 0.2s var(--ease-pop);
+}
+.pop-hover:hover { transform: translateY(-2px); }
+
+// Ticket perforation (for meeting cards)
+.ticket-edge {
+  --dot: var(--paper);
+  background-image: radial-gradient(circle at 10px 0, var(--dot) 5px, transparent 5.5px);
+  background-size: 20px 10px;
+  background-repeat: repeat-x;
+  background-position: top;
+}

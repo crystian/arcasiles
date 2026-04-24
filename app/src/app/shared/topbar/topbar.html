@@ -1,0 +1,24 @@
+<!-- TODO PROTO:book-clubs - Editorial masthead. -->
+<header class="topbar shell">
+  <a routerLink="/" class="brand" aria-label="Arcasiles, ir a la portada">
+    <span class="brand-name">Arcasiles</span>
+    <span class="brand-issue mono">{{ issue }}</span>
+  </a>
+
+  <nav class="tabs" aria-label="Navegacion principal">
+    <a routerLink="/explore" routerLinkActive="is-active" class="tab underline-pop">Indice</a>
+    <a routerLink="/meetings" routerLinkActive="is-active" class="tab underline-pop">Agenda</a>
+    <a routerLink="/me" routerLinkActive="is-active" class="tab underline-pop">Mi archivo</a>
+  </nav>
+
+  <button
+    type="button"
+    class="theme-toggle"
+    (click)="toggleTheme()"
+    [attr.aria-label]="isDark() ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'"
+    [attr.aria-pressed]="isDark()"
+    title="Cambiar tema"
+  >
+    <span aria-hidden="true">{{ isDark() ? '☀' : '☾' }}</span>
+  </button>
+</header>

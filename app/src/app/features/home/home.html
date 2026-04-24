@@ -1,0 +1,174 @@
+<!-- TODO PROTO:book-clubs - Home / Portada. -->
+<div class="shell">
+
+  <!-- Masthead compacto -->
+  <header class="masthead">
+    <span class="masthead-title">Portada</span>
+    <span class="masthead-issue">nº04 · abril 2026 — Madrid</span>
+  </header>
+
+  <!-- Hero editorial -->
+  <section class="hero">
+    <div class="hero-meta">
+      <span class="eyebrow">Esta semana</span>
+      <span class="eyebrow dot" aria-hidden="true">·</span>
+      <span class="eyebrow">{{ totalClubs() }} clubes activos</span>
+      <span class="eyebrow dot" aria-hidden="true">·</span>
+      <span class="eyebrow">{{ totalMembers() }} lectores</span>
+    </div>
+    <h1 class="hero-title display-xl">
+      Ocho clubes <span class="italic">leyendo</span>
+      <br />
+      <span class="italic">ahora</span> en la ciudad.
+    </h1>
+    <p class="lead hero-lead">
+      Un indice vivo de quien esta leyendo que, donde y cuando. Unite, apunta al margen, y llega a la
+      proxima reunion con algo para decir.
+    </p>
+
+    <div class="inline inline-md inline-wrap hero-actions">
+      <a routerLink="/explore" class="btn btn-primary">Explorar todos los clubes →</a>
+      <a routerLink="/meetings" class="btn btn-ghost">Ver agenda</a>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- Destacado del numero -->
+  @if (featuredClub(); as club) {
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">En portada</span>
+        <span class="mono index-num">01 / 04</span>
+      </div>
+
+      <article class="featured">
+        <div class="featured-cover">
+          <div class="cover cover-coral">
+            <span class="book-stamp book-stamp-lime">Leyendo ahora</span>
+            <div>
+              <div class="cover-title">{{ club.currentBook.title }}</div>
+              <div class="cover-author">{{ club.currentBook.author }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="featured-body">
+          <span class="eyebrow">
+            {{ club.modality === 'presencial' ? '· presencial · ' + club.city : '· online' }}
+          </span>
+          <h2 class="featured-name">
+            <a [routerLink]="['/clubs', club.id]">{{ club.name }}</a>
+          </h2>
+          <p class="lead featured-lead">{{ club.description }}</p>
+
+          <div class="featured-meta">
+            @if (club.venue) {
+              <div class="meta-line"><span class="eyebrow">Sede</span><span>{{ club.venue }}</span></div>
+            }
+            <div class="meta-line">
+              <span class="eyebrow">Proxima reunion</span>
+              <span>{{ formatMeeting(club.nextMeeting) }}</span>
+            </div>
+            <div class="meta-line">
+              <span class="eyebrow">Miembros</span>
+              <span>{{ club.memberCount }}</span>
+            </div>
+            <div class="meta-line">
+              <span class="eyebrow">Vibe</span>
+              <span class="hand">{{ club.vibe }}</span>
+            </div>
+          </div>
+
+          <div class="inline inline-md inline-wrap">
+            <a [routerLink]="['/clubs', club.id]" class="btn btn-primary">Leer articulo →</a>
+            <a [routerLink]="['/books', bookIdFor(club.currentBook.title, club.currentBook.author)]" class="btn btn-ghost">
+              Ficha del libro
+            </a>
+          </div>
+        </div>
+      </article>
+    </section>
+  }
+
+  <hr class="section-divider" />
+
+  <!-- Tambien en este numero -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">Tambien en este numero</span>
+      <a routerLink="/explore" class="eyebrow eyebrow-ink underline-pop">Ver los ocho →</a>
+    </div>
+
+    <div class="secondary-grid">
+      @for (club of secondary(); track club.id; let i = $index) {
+        <a class="secondary-item paper-lift" [routerLink]="['/clubs', club.id]">
+          <div class="cover" [class.cover-coral]="i === 0" [class.cover-lime]="i === 1" [class.cover-violet]="i === 2">
+            <span class="mono secondary-index">0{{ i + 2 }}</span>
+            <div>
+              <div class="cover-title">{{ club.currentBook.title }}</div>
+              <div class="cover-author">{{ club.currentBook.author }}</div>
+            </div>
+          </div>
+          <div class="secondary-body">
+            <h3 class="secondary-name">{{ club.name }}</h3>
+            <p class="muted secondary-meta">
+              {{ club.modality === 'presencial' ? club.venue : 'Videollamada' }} ·
+              {{ formatMeeting(club.nextMeeting) }}
+            </p>
+          </div>
+        </a>
+      }
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- Agenda -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">Proximas reuniones</span>
+      <a routerLink="/meetings" class="eyebrow eyebrow-ink underline-pop">Ver agenda completa →</a>
+    </div>
+
+    <div class="agenda-strip">
+      @for (club of upcoming(); track club.id) {
+        <a class="ticket" [routerLink]="['/clubs', club.id]">
+          <div class="ticket-date">
+            <span class="ticket-date-day">{{ meetingDay(club.nextMeeting) }}</span>
+            <span class="ticket-date-month">{{ meetingMonth(club.nextMeeting) }}</span>
+          </div>
+          <div class="ticket-body">
+            <span class="eyebrow">{{ club.modality === 'presencial' ? '· presencial' : '· online' }}</span>
+            <h4 class="ticket-title">{{ club.name }}</h4>
+            <p class="muted ticket-sub">
+              Leyendo <span class="italic">{{ club.currentBook.title }}</span>
+            </p>
+          </div>
+          <span class="chip chip-ghost chip-sm">{{ club.memberCount }} m.</span>
+        </a>
+      }
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- Generos / inventario -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">Por genero</span>
+      <span class="mono index-num">inventario · {{ genres().length }}</span>
+    </div>
+
+    <ul class="genres">
+      @for (genre of genres(); track genre.name; let i = $index) {
+        <li class="genre-item">
+          <span class="mono genre-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+          <span class="genre-name display">{{ genre.name }}</span>
+          <span class="genre-count mono">×{{ genre.count }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+
+</div>

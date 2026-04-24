@@ -1,0 +1,149 @@
+<!-- TODO PROTO:book-clubs - Me (Mi archivo). -->
+<div class="shell">
+
+  <header class="masthead">
+    <span class="masthead-title">Mi archivo</span>
+    <span class="masthead-issue">nº04 · abril 2026</span>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">03 — Tu suscripcion</span>
+    <h1 class="hero-title">
+      Hola <span class="italic">{{ displayName() }}</span>.
+    </h1>
+    <p class="lead hero-lead">
+      Tu tarjeta de suscriptor, los clubes a los que te sumaste y las preferencias que mandamos al editor.
+    </p>
+  </section>
+
+  <hr class="section-divider" />
+
+  <div class="me-grid">
+    <!-- Subscriber card -->
+    <aside class="subscriber">
+      <span class="eyebrow">Tarjeta de suscriptor</span>
+      <div class="card subscriber-card">
+        <div class="sub-head">
+          <span class="mono sub-num">nº04</span>
+          <span class="book-stamp">Arcasiles</span>
+        </div>
+        <h2 class="sub-name">{{ displayName() }}</h2>
+        <div class="sub-stats">
+          <div><span class="eyebrow">Clubes</span><strong>{{ joinedCount() }}</strong></div>
+          <div><span class="eyebrow">Favoritos</span><strong>{{ favoriteBooks().length }}</strong></div>
+          <div><span class="eyebrow">Generos</span><strong>{{ genres().length }}</strong></div>
+        </div>
+        <span class="hand sub-sign">—firmado con gusto</span>
+      </div>
+    </aside>
+
+    <!-- Joined clubs -->
+    <section class="joined">
+      <div class="section-head">
+        <span class="eyebrow">Mis clubes</span>
+        <a routerLink="/explore" class="eyebrow eyebrow-ink underline-pop">+ Sumarse a otro</a>
+      </div>
+
+      @if (joinedClubs().length === 0) {
+        <div class="empty joined-empty">
+          <p class="muted">Todavia no te sumaste a ningun club.</p>
+          <a routerLink="/explore" class="btn btn-primary btn-sm">Ver el indice →</a>
+        </div>
+      } @else {
+        <ul class="joined-list">
+          @for (club of joinedClubs(); track club.id; let i = $index) {
+            <li class="joined-item" [routerLink]="['/clubs', club.id]">
+              <span class="mono joined-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+              <div class="joined-body">
+                <h3>{{ club.name }}</h3>
+                <span class="muted">
+                  <span class="italic">{{ club.currentBook.title }}</span> ·
+                  {{ formatMeeting(club.nextMeeting) }}
+                </span>
+              </div>
+              <span class="chip chip-sm chip-ghost">{{ club.modality }}</span>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- Preferences editor -->
+  <section class="prefs">
+    <div class="section-head">
+      <span class="eyebrow">Preferencias del editor</span>
+      @if (savedFlash()) {
+        <span class="chip chip-lime saved-flash">✓ guardado</span>
+      }
+    </div>
+
+    <form class="prefs-form" (ngSubmit)="save()">
+      <label class="field">
+        <span class="eyebrow">Como te llamamos</span>
+        <input
+          type="text"
+          class="input"
+          placeholder="Tu nombre o alias"
+          [ngModel]="name()"
+          (ngModelChange)="name.set($event)"
+          name="name"
+        />
+      </label>
+
+      <div class="field">
+        <span class="eyebrow">Libros favoritos</span>
+        <div class="book-adder">
+          <input
+            type="text"
+            class="input"
+            placeholder="Agregar libro..."
+            [ngModel]="newBookDraft()"
+            (ngModelChange)="newBookDraft.set($event)"
+            (keydown.enter)="$event.preventDefault(); addBook()"
+            name="newBook"
+          />
+          <button type="button" class="btn btn-sm" (click)="addBook()">Agregar</button>
+        </div>
+
+        @if (favoriteBooks().length > 0) {
+          <ul class="book-chips">
+            @for (book of favoriteBooks(); track book) {
+              <li class="chip chip-ghost">
+                <span class="italic">{{ book }}</span>
+                <button
+                  type="button"
+                  class="chip-x"
+                  (click)="removeBook(book)"
+                  [attr.aria-label]="'Quitar ' + book"
+                >×</button>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div class="field">
+        <span class="eyebrow">Generos que te gustan</span>
+        <div class="genre-chips">
+          @for (genre of availableGenres; track genre) {
+            <button
+              type="button"
+              class="chip"
+              [class.chip-coral]="hasGenre(genre)"
+              [class.chip-ghost]="!hasGenre(genre)"
+              (click)="toggleGenre(genre)"
+              [attr.aria-pressed]="hasGenre(genre)"
+            >{{ genre }}</button>
+          }
+        </div>
+      </div>
+
+      <div class="prefs-actions">
+        <button type="submit" class="btn btn-primary">Guardar preferencias</button>
+      </div>
+    </form>
+  </section>
+</div>

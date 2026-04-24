@@ -1,0 +1,44 @@
+// TODO PROTO:book-clubs - Footer styles.
+:host {
+  display: block;
+  margin-top: 4rem;
+  border-top: var(--border) solid var(--ink);
+  background: var(--paper-deep);
+}
+
+.footer {
+  padding-top: 2.5rem;
+  padding-bottom: 2rem;
+}
+
+.colofon {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr;
+  gap: 2.5rem;
+}
+
+.col { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.note {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.colofon-bottom {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: var(--border-hairline) solid var(--hair);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.small { font-size: 0.72rem; color: var(--ink-muted); letter-spacing: 0.1em; }
+
+.note-hand { font-size: 1.3rem; color: var(--coral); }
+
+@media (max-width: 720px) {
+  .colofon { grid-template-columns: 1fr; gap: 1.5rem; }
+}

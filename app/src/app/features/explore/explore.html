@@ -1,0 +1,177 @@
+<!-- TODO PROTO:book-clubs - Explore (Indice) editorial. -->
+<div class="shell">
+
+  <header class="masthead">
+    <span class="masthead-title">Indice</span>
+    <span class="masthead-issue">nº04 · abril 2026</span>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">
+      01 — Explorar · Madrid + online
+    </span>
+    <h1 class="hero-title">
+      Todos los clubes, <span class="italic">ordenados</span> como un indice.
+    </h1>
+    <p class="lead hero-lead">
+      Cerca de 80 clubes activos en la ciudad y online. Filtra, busca, apuntate. Nadie te va a preguntar
+      cuanto lees al año.
+    </p>
+
+    @if (joinedCount() > 0) {
+      <div class="hero-badge">
+        <span class="chip chip-coral">
+          ✸ Sos miembro de {{ joinedCount() }} club{{ joinedCount() === 1 ? '' : 'es' }}
+        </span>
+      </div>
+    }
+  </section>
+
+  <section class="controls">
+    <div class="search">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input
+        type="search"
+        placeholder="Buscar titulo, autor, barrio, genero..."
+        [ngModel]="query()"
+        (ngModelChange)="query.set($event)"
+        aria-label="Buscar clubes"
+      />
+    </div>
+
+    <div class="controls-right">
+      <div class="filters" role="tablist" aria-label="Filtrar por modalidad">
+        <button
+          type="button"
+          class="filter-tab"
+          [class.is-active]="filter() === 'all'"
+          (click)="setFilter('all')"
+          role="tab"
+          [attr.aria-selected]="filter() === 'all'"
+        >Todos</button>
+        <button
+          type="button"
+          class="filter-tab"
+          [class.is-active]="filter() === 'presencial'"
+          (click)="setFilter('presencial')"
+          role="tab"
+          [attr.aria-selected]="filter() === 'presencial'"
+        >Presencial</button>
+        <button
+          type="button"
+          class="filter-tab"
+          [class.is-active]="filter() === 'online'"
+          (click)="setFilter('online')"
+          role="tab"
+          [attr.aria-selected]="filter() === 'online'"
+        >Online</button>
+      </div>
+
+      <div class="toggle" role="group" aria-label="Cambiar vista">
+        <button
+          type="button"
+          class="toggle-item"
+          [class.is-active]="view() === 'grid'"
+          (click)="setView('grid')"
+          [attr.aria-pressed]="view() === 'grid'"
+        >Grilla</button>
+        <button
+          type="button"
+          class="toggle-item"
+          [class.is-active]="view() === 'list'"
+          (click)="setView('list')"
+          [attr.aria-pressed]="view() === 'list'"
+        >Lista</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="results">
+    <div class="results-head">
+      <span class="eyebrow">
+        {{ clubs().length.toString().padStart(2, '0') }} / {{ clubs().length.toString().padStart(2, '0') }} resultados
+      </span>
+      <span class="eyebrow mono">actualizado hoy</span>
+    </div>
+
+    @if (clubs().length === 0) {
+      <div class="empty">
+        <span class="empty-mark">?</span>
+        <h3>Nada por aca todavia</h3>
+        <p class="muted">Proba con otra palabra o cambia el filtro.</p>
+      </div>
+    } @else if (view() === 'grid') {
+      <ul class="club-grid">
+        @for (club of clubs(); track club.id; let i = $index) {
+          <li class="club-card paper-lift" [routerLink]="['/clubs', club.id]">
+            <div class="club-cover">
+              <div class="cover" [class]="coverVariant(i)">
+                <span class="mono club-index">
+                  {{ (i + 1).toString().padStart(2, '0') }} / {{ clubs().length.toString().padStart(2, '0') }}
+                </span>
+                <div>
+                  <div class="cover-title">{{ club.currentBook.title }}</div>
+                  <div class="cover-author">{{ club.currentBook.author }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="club-body">
+              <div class="inline inline-sm inline-wrap">
+                <span
+                  class="chip chip-sm"
+                  [class.chip-coral]="club.modality === 'presencial'"
+                  [class.chip-violet]="club.modality === 'online'"
+                >{{ club.modality === 'presencial' ? '· presencial' : '· online' }}</span>
+                @for (genre of club.genres.slice(0, 2); track genre) {
+                  <span class="chip chip-sm chip-ghost">{{ genre }}</span>
+                }
+              </div>
+
+              <h3 class="club-name">{{ club.name }}</h3>
+
+              <p class="muted club-desc">{{ club.description }}</p>
+
+              <div class="club-meta">
+                <span class="club-meta-line">
+                  <span class="eyebrow">Sede</span>
+                  <span>{{ club.modality === 'presencial' ? club.venue : 'Videollamada' }}</span>
+                </span>
+                <span class="club-meta-line">
+                  <span class="eyebrow">Proxima</span>
+                  <span>{{ formatMeeting(club.nextMeeting) }}</span>
+                </span>
+                <span class="club-meta-line">
+                  <span class="eyebrow">Miembros</span>
+                  <span>{{ club.memberCount }}</span>
+                </span>
+              </div>
+
+              @if (isMember(club.id)) {
+                <span class="ribbon">sos miembro ✓</span>
+              }
+            </div>
+          </li>
+        }
+      </ul>
+    } @else {
+      <ul class="club-list">
+        @for (club of clubs(); track club.id; let i = $index) {
+          <li class="club-row" [routerLink]="['/clubs', club.id]">
+            <span class="row-num mono">{{ (i + 1).toString().padStart(2, '0') }}</span>
+            <div class="row-name">
+              <h4>{{ club.name }}</h4>
+              <span class="muted row-book">
+                leyendo <span class="italic">{{ club.currentBook.title }}</span> — {{ club.currentBook.author }}
+              </span>
+            </div>
+            <span class="row-mode mono">{{ club.modality }}</span>
+            <span class="row-date mono">{{ formatMeeting(club.nextMeeting) }}</span>
+            <span class="row-members mono">{{ club.memberCount }}m</span>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+
+</div>

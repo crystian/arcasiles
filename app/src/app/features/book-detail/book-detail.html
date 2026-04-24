@@ -1,0 +1,86 @@
+<!-- TODO PROTO:book-clubs - Book Detail (ficha). -->
+<div class="shell">
+  @if (book(); as b) {
+    <div class="crumbs">
+      <a routerLink="/explore" class="eyebrow underline-pop">← Indice</a>
+      <span class="eyebrow muted">·</span>
+      <span class="eyebrow">Ficha del libro</span>
+    </div>
+
+    <article class="article">
+      <div class="split">
+        <aside class="cover-wrap">
+          <div class="cover cover-violet cover-big">
+            <span class="book-stamp book-stamp-lime">Leido por {{ clubs().length }} clubes</span>
+            <div>
+              <div class="cover-title cover-title-big">{{ b.title }}</div>
+              <div class="cover-author">{{ b.author }}</div>
+            </div>
+          </div>
+          <span class="hand cover-note">“apuntar al margen vale”</span>
+        </aside>
+
+        <div class="info">
+          <span class="eyebrow">Ficha</span>
+          <h1 class="book-title italic">{{ b.title }}</h1>
+          <p class="lead book-author">de {{ b.author }}</p>
+
+          <div class="book-meta">
+            <div class="meta-item">
+              <span class="eyebrow">Clubes</span>
+              <strong class="mono">{{ clubs().length }}</strong>
+            </div>
+            <div class="meta-item">
+              <span class="eyebrow">Lectores</span>
+              <strong class="mono">{{ totalMembers() }}</strong>
+            </div>
+          </div>
+
+          <blockquote class="pull-quote">
+            Un libro cambia cuando lo leemos en grupo. Se vuelve mas grande, mas contradictorio, mas vivo.
+          </blockquote>
+
+          <p class="muted">
+            <!-- TODO PROTO:book-clubs - Placeholder synopsis. Replace with real book data from API/catalog. -->
+            Sinopsis proxima. Los datos de catalogo se integran mas adelante; por ahora esta ficha sirve
+            como punto de agregacion para ver que clubes lo estan leyendo en simultaneo.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <hr class="section-divider" />
+
+    <section class="reading section-tight">
+      <div class="related-head">
+        <span class="eyebrow">Clubes leyendo este libro ahora</span>
+        <span class="mono index-num">{{ clubs().length.toString().padStart(2, '0') }} total</span>
+      </div>
+
+      <ul class="reading-list">
+        @for (club of clubs(); track club.id; let i = $index) {
+          <li class="reading-item" [routerLink]="['/clubs', club.id]">
+            <span class="mono reading-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+            <div class="reading-body">
+              <h3 class="reading-name">{{ club.name }}</h3>
+              <span class="muted reading-meta">
+                {{ club.modality === 'presencial' ? club.venue : 'Videollamada' }} ·
+                {{ formatMeeting(club.nextMeeting) }} ·
+                {{ club.memberCount }} miembros
+              </span>
+            </div>
+            <span class="chip chip-sm" [class.chip-coral]="club.modality === 'presencial'" [class.chip-violet]="club.modality === 'online'">
+              {{ club.modality }}
+            </span>
+          </li>
+        }
+      </ul>
+    </section>
+  } @else {
+    <div class="not-found">
+      <span class="empty-mark">?</span>
+      <h2>Ese libro no esta en el numero</h2>
+      <a routerLink="/explore" class="btn btn-primary">Volver al indice</a>
+    </div>
+  }
+</div>

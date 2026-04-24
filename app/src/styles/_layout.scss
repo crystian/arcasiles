@@ -1,0 +1,113 @@
+// TODO PROTO:book-clubs - Layout primitives.
+
+.shell {
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  padding: 0 var(--shell-pad);
+}
+
+.shell-narrow {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 var(--shell-pad);
+}
+
+.section {
+  padding: clamp(2.5rem, 6vw, 5rem) 0;
+}
+
+.section-tight {
+  padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+}
+
+.section-divider {
+  border: 0;
+  border-top: var(--border) solid var(--ink);
+  margin: 0;
+}
+
+.hr {
+  border: 0;
+  border-top: var(--border) solid var(--ink);
+  margin: 2rem 0;
+}
+
+.hr-hair {
+  border: 0;
+  border-top: var(--border-hairline) solid var(--hair);
+  margin: 1.25rem 0;
+}
+
+// Editorial grid (12-col)
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.col-12 { grid-column: span 12; }
+.col-8 { grid-column: span 8; }
+.col-6 { grid-column: span 6; }
+.col-4 { grid-column: span 4; }
+.col-3 { grid-column: span 3; }
+
+@media (max-width: 960px) {
+  .col-8, .col-6 { grid-column: span 12; }
+  .col-4 { grid-column: span 6; }
+  .col-3 { grid-column: span 6; }
+}
+
+@media (max-width: 560px) {
+  .col-4, .col-3 { grid-column: span 12; }
+}
+
+// Split: hero + aside
+.split {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .split { grid-template-columns: 1fr; }
+}
+
+// Editorial column (article body)
+.column {
+  max-width: 62ch;
+}
+
+// Horizontal scroll strip (featured lists)
+.strip {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+}
+.strip > * {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+// Stack (vertical spacing)
+.stack { display: flex; flex-direction: column; }
+.stack-sm { gap: 0.5rem; }
+.stack-md { gap: 1rem; }
+.stack-lg { gap: 1.5rem; }
+.stack-xl { gap: 2.5rem; }
+
+// Inline (horizontal)
+.inline { display: flex; align-items: center; }
+.inline-sm { gap: 0.4rem; }
+.inline-md { gap: 0.75rem; }
+.inline-lg { gap: 1.25rem; }
+.inline-wrap { flex-wrap: wrap; }
+
+.app-main {
+  display: block;
+  min-height: calc(100vh - 200px);
+  padding: clamp(1rem, 3vw, 2rem) 0 clamp(2rem, 5vw, 4rem);
+}

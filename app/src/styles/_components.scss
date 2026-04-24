@@ -1,0 +1,338 @@
+// TODO PROTO:book-clubs - Base components.
+
+// ---------- Buttons ----------
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border: var(--border) solid var(--ink);
+  border-radius: var(--r-pill);
+  padding: 0.7rem 1.3rem;
+  font-family: var(--f-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: var(--surface);
+  color: var(--ink);
+  transition: transform 0.2s var(--ease-pop), background 0.2s ease,
+    box-shadow 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--ink);
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: translate(0, 0);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 3px;
+}
+
+.btn-primary {
+  background: var(--coral);
+  color: #15110d;
+}
+.btn-primary:hover { background: var(--coral); }
+
+.btn-lime {
+  background: var(--lime);
+  color: #15110d;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-sm { padding: 0.4rem 0.9rem; font-size: 0.82rem; }
+.btn-lg { padding: 0.85rem 1.6rem; font-size: 1rem; }
+
+// ---------- Chips / stickers ----------
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--r-pill);
+  background: var(--sand);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  border: var(--border) solid var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.chip-coral { background: var(--coral); color: #15110d; }
+.chip-lime { background: var(--lime); color: #15110d; }
+.chip-violet { background: var(--violet); color: #fff; border-color: var(--violet); }
+.chip-ink { background: var(--ink); color: var(--paper); }
+.chip-ghost { background: transparent; }
+.chip-sm { padding: 0.18rem 0.55rem; font-size: 0.7rem; }
+
+// ---------- Cards ----------
+.card {
+  background: var(--surface);
+  border: var(--border) solid var(--ink);
+  border-radius: var(--r-lg);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.card-flat {
+  background: var(--surface);
+  border: var(--border-hairline) solid var(--hair);
+  border-radius: var(--r-lg);
+  padding: 1.25rem;
+}
+
+.card-pop {
+  background: var(--surface);
+  border: var(--border) solid var(--ink);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-pop-sm);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+// ---------- Input ----------
+.input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: var(--surface);
+  border: var(--border) solid var(--ink);
+  border-radius: var(--r-pill);
+  font-family: inherit;
+  font-size: 0.98rem;
+  color: var(--ink);
+  outline: none;
+  transition: box-shadow 0.2s ease;
+}
+.input::placeholder { color: var(--ink-muted); }
+.input:focus { box-shadow: var(--shadow-pop-sm); }
+
+// ---------- Underline nav ----------
+.underline-pop {
+  position: relative;
+  display: inline-block;
+}
+.underline-pop::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 3px;
+  background: var(--coral);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease-pop);
+}
+.underline-pop.is-active::after,
+.underline-pop:hover::after { transform: scaleX(1); }
+
+// ---------- Masthead ----------
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0 0.75rem;
+  border-bottom: var(--border) solid var(--ink);
+}
+
+.masthead-title {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.masthead-issue {
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+// ---------- Book stamp (rotated label) ----------
+.book-stamp {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  border: var(--border) solid var(--ink);
+  border-radius: var(--r-sm);
+  background: var(--coral);
+  color: #15110d;
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+}
+
+.book-stamp-lime { background: var(--lime); }
+.book-stamp-violet { background: var(--violet); color: #fff; border-color: var(--violet); }
+
+// ---------- Ticket (for meetings) ----------
+.ticket {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.25rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: var(--border) solid var(--ink);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-pop-sm);
+}
+
+.ticket::before,
+.ticket::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: var(--border) solid var(--ink);
+  transform: translateY(-50%);
+}
+.ticket::before { left: -8px; }
+.ticket::after { right: -8px; }
+
+.ticket-date {
+  font-family: var(--f-display);
+  line-height: 0.95;
+  text-align: center;
+  padding: 0.4rem 0.6rem;
+  border-right: var(--border-hairline) dashed var(--hair);
+}
+.ticket-date-day { font-size: 2rem; display: block; }
+.ticket-date-month { font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-muted); }
+
+// ---------- Cover (book cover placeholder) ----------
+.cover {
+  aspect-ratio: 2 / 3;
+  background: var(--sand);
+  border: var(--border) solid var(--ink);
+  border-radius: var(--r-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  color: var(--ink);
+  font-family: var(--f-display);
+  box-shadow: var(--shadow-pop-sm);
+}
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.25), transparent 45%),
+    linear-gradient(135deg, transparent 30%, rgba(21, 17, 13, 0.08) 60%);
+  pointer-events: none;
+}
+.cover-title {
+  font-size: 1.1rem;
+  line-height: 1;
+  font-style: italic;
+  position: relative;
+}
+.cover-author {
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  position: relative;
+}
+.cover-coral { background: var(--coral); }
+.cover-lime { background: var(--lime); }
+.cover-violet { background: var(--violet); color: #fff; }
+.cover-violet .cover-author { color: rgba(255, 255, 255, 0.7); }
+.cover-ink { background: var(--ink); color: var(--paper); }
+.cover-ink .cover-author { color: var(--ink-muted); }
+
+// ---------- Numbered index (visual inventory) ----------
+.index-num {
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-muted);
+}
+.index-num strong { color: var(--ink); font-weight: 500; }
+
+// ---------- Toggle ----------
+.toggle {
+  display: inline-flex;
+  border: var(--border) solid var(--ink);
+  border-radius: var(--r-pill);
+  padding: 3px;
+  background: var(--surface-sunk);
+}
+.toggle-item {
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--r-pill);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.toggle-item.is-active {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+// ---------- Ribbon (corner badge) ----------
+.ribbon {
+  position: absolute;
+  top: 14px;
+  right: -32px;
+  transform: rotate(18deg);
+  background: var(--lime);
+  border: var(--border) solid var(--ink);
+  padding: 0.2rem 2.5rem;
+  font: 700 0.7rem/1 var(--f-sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #15110d;
+}
+
+// ---------- Empty state ----------
+.empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: center;
+}
+.empty-mark {
+  font-family: var(--f-display);
+  font-size: 4rem;
+  background: var(--lime);
+  border: var(--border) solid var(--ink);
+  width: 4.5rem;
+  height: 4.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transform: rotate(-8deg);
+  line-height: 0.9;
+}
+.empty h3 { font-size: 1.6rem; }

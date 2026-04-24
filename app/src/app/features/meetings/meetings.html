@@ -1,0 +1,72 @@
+<!-- TODO PROTO:book-clubs - Meetings (agenda). -->
+<div class="shell">
+
+  <header class="masthead">
+    <span class="masthead-title">Agenda</span>
+    <span class="masthead-issue">nº04 · abril 2026</span>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">02 — Proximas reuniones</span>
+    <h1 class="hero-title">
+      La bitacora de <span class="italic">lo que viene</span>.
+    </h1>
+    <p class="lead hero-lead">
+      Ocho clubes, un solo calendario. Agrupado por semana para que sepas cuando podes sumarte.
+    </p>
+  </section>
+
+  <hr class="section-divider" />
+
+  @if (upcoming().length === 0) {
+    <div class="empty">
+      <span class="empty-mark">?</span>
+      <h3>No hay reuniones proximas</h3>
+      <p class="muted">Volve mas tarde o sumate a un club.</p>
+      <a routerLink="/explore" class="btn btn-primary">Ver el indice →</a>
+    </div>
+  } @else {
+    @for (group of groups(); track group.key; let i = $index) {
+      <section class="week section-tight">
+        <div class="week-head">
+          <div class="week-head-left">
+            <span class="mono index-num">semana {{ (i + 1).toString().padStart(2, '0') }}</span>
+            <h2 class="week-label">{{ group.label }}</h2>
+          </div>
+          <span class="mono week-range">{{ group.range }}</span>
+        </div>
+
+        <ul class="week-list">
+          @for (club of group.clubs; track club.id) {
+            <li class="week-item" [routerLink]="['/clubs', club.id]">
+              <div class="item-date">
+                <span class="item-weekday mono">{{ weekday(club.nextMeeting) }}</span>
+                <span class="item-day display">{{ day(club.nextMeeting) }}</span>
+                <span class="item-month mono">{{ month(club.nextMeeting) }}</span>
+              </div>
+
+              <div class="item-body">
+                <span class="eyebrow">
+                  {{ club.modality === 'presencial' ? '· presencial' : '· online' }}
+                </span>
+                <h3 class="item-title">{{ club.name }}</h3>
+                <p class="muted item-book">
+                  leyendo <span class="italic">{{ club.currentBook.title }}</span> — {{ club.currentBook.author }}
+                </p>
+                <p class="muted item-where">
+                  @if (club.modality === 'presencial') {
+                    ✸ {{ club.venue }}
+                  } @else {
+                    ✸ Videollamada
+                  }
+                </p>
+              </div>
+
+              <span class="mono item-members">{{ club.memberCount }} miembros</span>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  }
+</div>

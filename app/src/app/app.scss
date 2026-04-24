@@ -1,0 +1,14 @@
+// TODO PROTO:book-clubs - Prototype app shell layout.
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.app-main {
+  flex: 1;
+  width: 100%;
+  padding: clamp(1rem, 3vw, 2rem) 0 clamp(2rem, 5vw, 4rem);
+}
